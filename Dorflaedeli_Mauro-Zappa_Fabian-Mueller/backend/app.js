@@ -55,6 +55,16 @@ router
 
 .get("/api/clearCart", context =>{
     context.cookies.set("productsInCart", '[]');
+})
+
+.get("/api/getCartcount", async context =>{
+    let productsCount = await JSON.parse(context.cookies.get("productsInCart"));
+    let result = 0;
+    
+    for (let i = 0; i < productsCount.length; i++) {
+        result +=  parseInt(productsCount[i].count);
+    }
+    context.response.body = result;
 });
 
 export const apiRoutes = router.routes();
