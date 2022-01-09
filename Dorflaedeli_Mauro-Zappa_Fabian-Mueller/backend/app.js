@@ -53,6 +53,8 @@ router
     context.response.body = result;
 })
 
-.get("/api/checkoutCart", context => context.response.body = Console.log(context.cookies.get("productsInCart")));
+.get("/api/clearCart", context =>{
+    context.cookies.set("productsInCart", '[]');
+});
 
 export const apiRoutes = router.routes();
