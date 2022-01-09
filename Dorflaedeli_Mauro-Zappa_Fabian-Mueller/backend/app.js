@@ -9,7 +9,8 @@ router
 
 .get("/api/productById", async context => {
     const item =  await context.request.body({type: "json"}).value;
-    context.response.body = await JSON.parse(await Deno.readTextFile('./backend/products.json')).filter(function (el){return el.id == item.id})})
+    context.response.body = await JSON.parse(await Deno.readTextFile('./backend/products.json')).filter(function (el){return el.id == item.id})
+})
 
 .get("/api/addProdcutToCart", async context => { 
     const item =  await context.request.body({type: "json"}).value;
@@ -29,7 +30,7 @@ router
             objlist.push({ id : item.id , count : item.count}); 
         } else {
             //update existing product
-            for (var i = 0; i < objlist.length; i++) {
+            for (let i = 0; i < objlist.length; i++) {
                 if (objlist[i].id === item.id) {
                     objlist[i].count = item.count;
                 }
@@ -39,7 +40,18 @@ router
     }
 })
 
-.get("/api/getCart", context => context.response.body = Console.log(context.cookies.get("productsInCart")))
+.get("/api/getCart", async context => { 
+    let productsCount = await JSON.parse(context.cookies.get("productsInCart"));
+    let result = [];
+    
+    for (let i = 0; i < productsCount.length; i++) {
+        let filterproductslist = await JSON.parse(await Deno.readTextFile('./backend/products.json')).filter(function (el){return el.id == productsCount[i].id});
+        let product = filterproductslist[0];
+        product.count = productsCount[i].count;
+        result.push(product);
+    }
+    context.response.body = result;
+})
 
 .get("/api/checkoutCart", context => context.response.body = Console.log(context.cookies.get("productsInCart")));
 
