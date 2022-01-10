@@ -46,7 +46,9 @@ router
     
     for (let i = 0; i < productsCount.length; i++) {
         let filterproductslist = await JSON.parse(await Deno.readTextFile('./backend/products.json')).filter(function (el){return el.id == productsCount[i].id});
+        console.log("filter: " + filterproductslist);
         let product = filterproductslist[0];
+        console.log("product: " + product);
         product.count = productsCount[i].count;
         result.push(product);
     }
