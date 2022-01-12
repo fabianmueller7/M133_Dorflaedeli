@@ -62,7 +62,7 @@ router
     context.response.body = result;
 })
 
-.get("/api/clearCart", context =>{
+.post("/api/clearCart", context =>{
     context.cookies.set("productsInCart", '[]');
 })
 
