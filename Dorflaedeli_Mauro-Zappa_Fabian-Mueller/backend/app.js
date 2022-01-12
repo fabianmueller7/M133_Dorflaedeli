@@ -12,12 +12,16 @@ router
     context.response.body = await JSON.parse(await Deno.readTextFile('./backend/products.json')).filter(function (el){return el.id == item.id})
 })
 
-.get("/api/addProdcutToCart", async context => { 
+//item.id => itemid, item.count => anzahl +artikel(-1 für Wahrenkorb leeren)
+.post("/api/addProdcutToCart", async context => { 
     const item =  await context.request.body({type: "json"}).value;
     const cookie = context.cookies.get("productsInCart");
     if(typeof cookie === 'undefined') {
         console.log("undefined");
         let datalist = [];
+        if(item.count < 0) {
+            item.count = 0;
+        }
         let data = {id: item.id, count : item.count};
         datalist.push(data);
         context.cookies.set("productsInCart", JSON.stringify(datalist));
@@ -32,7 +36,10 @@ router
             //update existing product
             for (let i = 0; i < objlist.length; i++) {
                 if (objlist[i].id === item.id) {
-                    objlist[i].count = item.count;
+                    objlist[i].count += parseInt(item.count);
+                    if(objlist[i].count < 0) {
+                        objlist[i].count = 0; 
+                    }
                 }
             }
         }
@@ -46,11 +53,11 @@ router
     
     for (let i = 0; i < productsCount.length; i++) {
         let filterproductslist = await JSON.parse(await Deno.readTextFile('./backend/products.json')).filter(function (el){return el.id == productsCount[i].id});
-        console.log("filter: " + filterproductslist);
+        if(filterproductslist[0] !== undefined) {
         let product = filterproductslist[0];
-        console.log("product: " + product);
         product.count = productsCount[i].count;
         result.push(product);
+        }
     }
     context.response.body = result;
 })
