@@ -1,4 +1,5 @@
-# Projekt unvollständig Mauro Zapa und Fabian Müller möchten bestehende Noten als Zeugnisnoten.
+# Projekt unvollständig
+# Mauro Zapa und Fabian Müller möchten bestehende Noten als Zeugnisnoten.
 Es gibt folgende Anpassung in der Bewertung des Projektes "Dorflädeli".
 Ursache für die Anpassung: 2-Wochen üK und Anliegen von der Klasse 19dL. Aufgrund des üK's war zu wenig Zeit vorhanden, dieses Projekt adäquat angehen zu können. Im Übrigen ist bereits zuvor ein Projekt gemacht worden.
 Nach Absprache mit der Leitung darf ich folgende Anpassung machen.
